@@ -1,6 +1,10 @@
 import requests
 #from pprint import pprint
 import os
+import json
+import os
+from urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
 
 # set up connection parameters in a dictionary
@@ -15,7 +19,7 @@ headers = {"Accept": "application/yang-data+json",
 
 # list all vlan's
 #url = f"https://{router['ip']}:{router['port']}/restconf/data/Cisco-IOS-XE-wireless-client-oper:client-oper-data/common-oper-data=00:0e:8e:84:d3:9f"
-url = f"https://{router['ip']}:{router['port']}/restconf/data/Cisco-IOS-XE-wireless-client-oper:client-oper-data/dot11-oper-data=00:0e:8e:84:d3:9f"
+url = f"https://{router['ip']}:{router['port']}/restconf/data/Cisco-IOS-XE-wireless-client-oper:client-oper-data"
 # print(url)
 
 response = requests.get(url, headers=headers, auth=(
@@ -24,4 +28,4 @@ response = requests.get(url, headers=headers, auth=(
 
 api_data = response.json()
 #print("/" * 50)
-print(api_data['Cisco-IOS-XE-wireless-client-oper:dot11-oper-data'])
+print(json.dumps(api_data,sort_keys=True, indent=4))
