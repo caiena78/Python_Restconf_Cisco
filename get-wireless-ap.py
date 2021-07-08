@@ -2,7 +2,8 @@ import requests
 import json
 from pprint import pprint
 import os
-
+from urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
 # set up connection parameters in a dictionary
 router = {"ip": os.getenv('switch_ip'), "port": "443", "user": os.getenv('switch_user'), "password": os.getenv('switch_pwd')}
@@ -25,4 +26,5 @@ response = requests.get(url, headers=headers, auth=(
 
 api_data = response.json()
 #print("/" * 50)
-print(api_data['Cisco-IOS-XE-wireless-access-point-oper:access-point-oper-data'].keys())
+# print(api_data['Cisco-IOS-XE-wireless-access-point-oper:access-point-oper-data'].keys())
+print(json.dumps(api_data,sort_keys=True, indent=4))
